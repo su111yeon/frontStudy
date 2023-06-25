@@ -121,6 +121,8 @@ export default {
     addTodo(e) {
       console.log(e.target);
       debugger;
+
+      this.$emit('addTodo', e);
     },
     /* vuex 를 사용하는 경우
       mapActions 는 store의 actions 를 가져오는 헬퍼 메서드입니다.
