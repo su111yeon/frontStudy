@@ -2,16 +2,20 @@
 
 <template>
   <div id="app">
+    <!-- TodoHeader -->
     <TodoHeader></TodoHeader>
+
     <!-- TodoInput -->
     <TodoInput v-on:addTodo="addTodo"></TodoInput>
-    <!-- "checked(todoItem.done)"  <==> "todoItem.done ? 'checked': null "  -->
+
     <!-- TodoList -->
     <TodoList
       v-bind:todoItems="todoItems"
       v-on:doneToggle="doneToggle"
       v-on:removeTodo="removeTodo"
     ></TodoList>
+
+    <!-- TodoFooter -->
     <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
   </div>
 </template>
@@ -41,6 +45,31 @@ export default {
   //template: ``,
   methods: {
     /* 이벤트 핸들러 등록 + 일반 함수 */
+    clearAll(e) {
+      debugger;
+      console.log(e.target);
+      this.$data.todoItems = [];
+    },
+    doneToggle(e, id) {
+      debugger;
+      console.log(id);
+      // 복제 후 할당 처리 방식.
+      // 1. 새로운 배열 만들기. map 사용
+      // 2. this.$data.todoItems 에 새로운 배열 할당하기
+      const newarr = this.$data.todoItems.map((value, index, array) => {
+        if (value.id === id) value.done = !value.done;
+        return value;
+      });
+      this.$data.todoItems = newarr;
+    },
+    removeTodo(id) {
+      debugger;
+      console.log(id);
+    },
+    addTodo(e) {
+      debugger;
+      console.log(e.target);
+    },
     /* vuex 를 사용하는 경우
       mapActions 는 store의 actions 를 가져오는 헬퍼 메서드입니다.
       namespaced: true를 설정한 경우 네임스페이스를 사용하기 때문에 store의 모듈 명을 적어주어야 합니다.
@@ -50,25 +79,6 @@ export default {
       2) store.모듈명.actions 이름 그대로 사용하기
          ...mapActions('모듈명', ['액션명1', '액션명2']),
       */
-    clearAll(e) {
-      debugger;
-      console.log(e.target);
-      // this.$emit('clearAll');
-    },
-    // 두개를 인자로 받음
-    doneToggle(e, id) {
-      debugger;
-      console.log(e.target);
-    },
-    // id만 받음
-    removeTodoe(id) {
-      debugger;
-      console.log(id);
-    },
-    addTodo(e) {
-      debugger;
-      console.log(e.target);
-    },
   },
   components: {
     /* 지역 컴포넌트나 파일 컴포넌트만 등록 한다. 예시) "태그명" : 컴포넌트명 */

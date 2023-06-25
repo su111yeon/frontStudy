@@ -5,6 +5,7 @@ ul {
   margin-top: 0;
   text-align: left;
 }
+
 li {
   display: flex;
   min-height: 50px;
@@ -15,24 +16,29 @@ li {
   background: white;
   border-radius: 5px;
 }
+
 li.checked {
   background: #bbb;
   color: #fff;
   text-decoration: line-through;
 }
+
 .checkBtn {
   line-height: 45px;
   color: #62acde;
   margin-right: 5px;
 }
+
 .removeBtn {
   margin-left: auto;
   color: #de4343;
 }
+
 .list-enter-active,
 .list-leave-active {
   transition: all 1s;
 }
+
 .list-enter,
 .list-leave-to {
   opacity: 0;
@@ -41,42 +47,28 @@ li.checked {
 </style>
 
 <template>
-  <div>
-    <section>
-      <!-- "checked(todoItem.done)" <-> "todoItem.done ? 'checked': null "-->
-      <ul>
-        <!-- <li
-          v-for="todoItem in todoItems"
-          v-bind:key="todoItem.id"
-          class="checked"
-        >
-          <i aria-hidden="true" class="checkBtn fas fa-check"></i>
-          {{ todoItem }}
-          <span type="button" class="removeBtn">
-            <i aria-hidden="true" class="far fa-trash-alt"></i>
-          </span>
-        </li> -->
-        <li
-          v-for="item in todoItems"
-          v-bind:key="item.id"
-          v-bind:class="item.done ? 'checked' : null"
+  <!-- "checked(todoItem.done)"  <==> "todoItem.done ? 'checked': null "  -->
+  <section>
+    <ul>
+      <li
+        v-for="item in todoItems"
+        v-bind:class="item.done ? 'checked' : null"
+        v-bind:key="item.id"
+        v-on:click="(e) => doneToggle(e, item.id)"
+      >
+        <i aria-hidden="true" class="checkBtn fas fa-check"></i>
+        {{ item.todo }}
+        <span
+          type="button"
+          class="removeBtn"
           v-bind:data-id="item.id"
-          v-on:click="(e) => doneToggle(e, item.id)"
+          v-on:click="removeTodo(item.id)"
         >
-          <i aria-hidden="true" class="checkBtn fas fa-check"></i>
-          {{ item.todo }}
-          <span
-            type="button"
-            class="removeBtn"
-            v-bind:data-id="itme.id"
-            v-on:click="removeTodo(item.id)"
-          >
-            <i aria-hidden="true" class="far fa-trash-alt"></i>
-          </span>
-        </li>
-      </ul>
-    </section>
-  </div>
+          <i aria-hidden="true" class="far fa-trash-alt"></i>
+        </span>
+      </li>
+    </ul>
+  </section>
 </template>
 
 <script>
@@ -93,6 +85,16 @@ export default {
   //template: ``,
   methods: {
     /* 이벤트 핸들러 등록 + 일반 함수 */
+    doneToggle(e, id) {
+      console.log(e.target, id);
+      debugger;
+      this.$emit('doneToggle', e, id);
+    },
+    removeTodo(id) {
+      console.log(id);
+      debugger;
+      this.$emit('removeTodo', id);
+    },
     /* vuex 를 사용하는 경우
       mapActions 는 store의 actions 를 가져오는 헬퍼 메서드입니다.
       namespaced: true를 설정한 경우 네임스페이스를 사용하기 때문에 store의 모듈 명을 적어주어야 합니다.
@@ -102,17 +104,6 @@ export default {
       2) store.모듈명.actions 이름 그대로 사용하기
          ...mapActions('모듈명', ['액션명1', '액션명2']),
       */
-    doneToggle(e) {
-      console.log(id);
-      const id = e.target.dataset.id;
-      debugger;
-      this.$emit('donToggle', e, id);
-    },
-    removeTodo(id) {
-      console.log(id);
-      debugger;
-      this.$emit('removeTodo', id);
-    },
   },
   components: {
     /* 전역 컴포넌트인 경우는 등록하지 않는다. 전역 컴포넌트는 프로토타입 체인으로 찾을 수 있기 때문에 */
