@@ -117,7 +117,7 @@ const [arr, setArr] = useState([1, 2, 3, 4, 5]);
   // const {...props} = props;
   function Repl({ }) {
     // useState 를 사용한 컴포넌트의 상태값 설정
-    const [arr, setArr] = useState([1, 2, 3, 4, 5]); // 상태값이 기본타입인 경우
+    const [arr, setArr] = useState('[1,2,3,4,5]'); // 상태값이 기본타입인 경우
 
     // ref 만들기.
     // const refInput = useRef();
@@ -135,7 +135,7 @@ const [arr, setArr] = useState([1, 2, 3, 4, 5]);
       console.log(e.target);
       debugger;
       console.log('변경 전', arr);
-      const newArr = [100, 2, 4, 6, 7];
+      cosnt newArr = [100, 2, 4, 6, 7];
       setArr(newArr); // state 변경은 비동기로 처리됨. => 시간이 오래 걸림
       console.log('변경 후', arr);
     };
@@ -148,6 +148,7 @@ const [arr, setArr] = useState([1, 2, 3, 4, 5]);
         if (index === 1)
           value = 300;
         return value;
+
       });
       //할당
       setArr(newArr); // state 변경은 비동기로 처리됨. => 시간이 오래 걸림
@@ -157,26 +158,11 @@ const [arr, setArr] = useState([1, 2, 3, 4, 5]);
       // 이벤트 핸들러는 화살표 함수로 만든다
       console.log(e.target);
       debugger;
-      // 복제 => 얕은 복사 방식이 사용됨.
-      const newArr = arr &&
-        arr.length > 0 &&
-        arr.filter((value, index, array) => (index > 1) ? true : false);
-      /*
-      if (index > 1)
-        return true; // 넣는다
-      return false; // 뺀다
-      */
-      // 할당
-      setArr(newArr);
     };
     const handlerChange4 = (e) => {
       // 이벤트 핸들러는 화살표 함수로 만든다
       console.log(e.target);
       debugger;
-      // 복제 => 얕은 복사 방식이 사용됨.
-      const newArr = [500, ...arr, 70];
-      // 할당
-      setArr(newArr);
     };
 
     // JSX로 화면 만들기. 조건부 렌더링: https://ko.reactjs.org/docs/conditional-rendering.html

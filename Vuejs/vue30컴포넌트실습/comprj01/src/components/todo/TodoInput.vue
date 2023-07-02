@@ -94,11 +94,33 @@ input:focus {
       type="text"
       placeholder="Type what you have to do"
       v-model="newTodoItem"
+      ref="refNewTodoItem"
     />
     <!-- v-model:value="newTodoItem" value 생략가능-->
     <span class="addContainer" v-on:click="addTodo">
       <i aria-hidden="true" class="addBtn fas fa-plus"></i>
     </span>
+    <div
+      class="modal-mask"
+      v-on:keyup.esc="$emit('close')"
+      v-if="showModal"
+      v-on:close="showModal = false"
+    >
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+            <h3>경고</h3>
+          </div>
+
+          <div class="modal-footer">
+            <span v-on:click="showModal = false">
+              할 일을 입력하세요.
+              <i class="closeModalBtn fas fa-times" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -112,7 +134,8 @@ export default {
   data() {
     /* 컴포넌트 안에서 사용되는 변수 등록. 개별 변수 */
     return {
-      newTOdoItme: null,
+      newTodoItem: null,
+      showModal: false,
     };
   },
   //template: ``,
@@ -122,7 +145,21 @@ export default {
       console.log(e.target);
       debugger;
 
-      this.$emit('addTodo', e);
+      //
+      // 입력 태그에 focus를 주시오.
+      // 모달창이
+      if (
+        !this.$data.newTodoItem ||
+        this.$data.newTodoItem.trim().length <= 0
+      ) {
+        this.$data.showModal = !this.$data.showModal;
+        this.$refs.refNewTodoItem.focus();
+        return;
+      }
+      this.$emit('addTodo', e, this.$data.newTodoItem);
+
+      // 입력값 newTodoItem 초기화
+      this.$data.newTodoItem = null;
     },
     /* vuex 를 사용하는 경우
       mapActions 는 store의 actions 를 가져오는 헬퍼 메서드입니다.
