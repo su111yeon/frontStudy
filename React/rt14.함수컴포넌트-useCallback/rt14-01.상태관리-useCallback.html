@@ -127,7 +127,7 @@
     const [childMessage, setChildMessage] = useState('null'); // 상태값이 기본타입인 경우
 
     const callbackChildMessage = useCallback((param) => {
-      debugger;
+
       console.log(param);
       setParentText(param);
       setChildMessage(param);
@@ -165,7 +165,7 @@
     const handlerChild = (e) => {
       // 이벤트 핸들러는 화살표 함수로 만든다
       console.log(e.target);
-      debugger;
+
 
       // 부모 컴포넌트의 callback 메서드 호출;
       callbackChildMessage(childText + new Date().toLocaleTimeString())
